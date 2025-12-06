@@ -1,0 +1,68 @@
+// src/styles/Header.scss
+@import 'variables';
+@import 'neumorphism';
+
+.header {
+  background-color: $surface-dark;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // subtle shadow for header
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    a {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: $accent-blue;
+      text-decoration: none;
+
+      &:hover {
+        color: lighten($accent-blue, 10%);
+      }
+    }
+  }
+
+  .nav {
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+
+      li {
+        a {
+          color: $text-light;
+          font-size: 1.1rem;
+          text-decoration: none;
+          position: relative;
+          padding-bottom: 5px;
+
+          &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: $accent-blue;
+            transition: width 0.3s ease-in-out;
+          }
+
+          &:hover::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+// src/styles/SectionPlaceholder.scss
+@import 'variables';
+@import 'neumorphism';
+
+.section-placeholder {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: 4rem auto;
+  text-align: center;
+
+  .section-content {
+    @include neumorphic(flat);
+    padding: 3rem;
+    border-radius: 20px;
+
+    h2 {
+      font-size: 2.5rem;
+      color: $text-light;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: $text-muted;
+      margin-bottom: 1rem;
+    }
+  }
+}

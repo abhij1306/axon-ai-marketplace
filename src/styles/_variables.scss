@@ -1,0 +1,13 @@
+// src/styles/_variables.scss
+
+$background-dark: #2c2f33; // Main dark background
+$surface-dark: #36393f; // Slightly lighter surface for neumorphic elements
+$text-light: #ffffff; // Light text for dark background
+$text-muted: #b0b0b0; // Muted text for secondary info
+$accent-blue: #7289da; // Primary accent color (e.g., for buttons, links)
+
+// Neumorphism shadows
+$neumorphic-light-shadow: rgba(54, 57, 63, 0.7); // Darker shade for "light" shadow
+$neumorphic-dark-shadow: rgba(0, 0, 0, 0.7); // Even darker shade for "dark" shadow
+$neumorphic-blur: 10px;
+$neumorphic-distance: 5px;

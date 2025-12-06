@@ -1,0 +1,64 @@
+// src/styles/Marketplace.scss
+@import 'variables';
+@import 'neumorphism';
+
+.marketplace-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .marketplace-header {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h2 {
+      font-size: 3rem;
+      color: $text-light;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: $text-muted;
+    }
+  }
+
+  .category-filters {
+    @include neumorphic(flat);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    border-radius: 20px;
+
+    .category-button {
+      @include neumorphic(flat);
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: $text-light;
+      background-color: $surface-dark;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        @include neumorphic(hovered);
+        color: $accent-blue;
+      }
+
+      &.active {
+        @include neumorphic(pressed);
+        background-color: $accent-blue;
+        color: $text-light;
+      }
+    }
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}

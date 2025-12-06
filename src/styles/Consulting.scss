@@ -1,0 +1,57 @@
+// src/styles/Consulting.scss
+@import 'variables';
+@import 'neumorphism';
+
+.consulting-section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: 4rem auto; // Add some top margin to separate from marketplace
+  text-align: center;
+
+  .consulting-content {
+    @include neumorphic(flat); // Apply neumorphic style to the content container
+    padding: 3rem;
+    border-radius: 20px;
+
+    h2 {
+      font-size: 2.8rem;
+      color: $accent-blue;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: $text-muted;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-button {
+      @include neumorphic(flat);
+      background-color: $accent-blue;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: $text-light;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+
+      &:hover {
+        @include neumorphic(hovered);
+        transform: translateY(-2px);
+        background-color: lighten($accent-blue, 5%);
+      }
+
+      &:active {
+        @include neumorphic(pressed);
+        transform: translateY(0);
+        background-color: darken($accent-blue, 5%);
+      }
+    }
+  }
+}
