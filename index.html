@@ -3,12 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        alert("Global Error: " + message + "\nLine: " + lineno + "\nSource: " + source);
+      };
+      // Prevent stuck "Loading" if React fails silently
+      window.onload = function() {
+        if(document.getElementById('root').innerHTML.trim() === 'Loading Axon AI Marketplace...') {
+          console.warn("React failed to mount.");
+        }
+      }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>axon-ai-marketplace</title>
     <script type="module" crossorigin src="./assets/index-CLGaGglU.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-BzVNM9KU.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" style="color: white; font-family: sans-serif; text-align: center; padding-top: 50px;">
+      Loading Axon AI Marketplace...
+    </div>
   </body>
 </html>
