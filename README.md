@@ -1,63 +1,70 @@
 # Axon AI Marketplace
 
-**Your Business, Amplified by AI.**
-
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Here-blue?style=for-the-badge)](https://abhij1306.github.io/axon-ai-marketplace/) 
-*(Note: The demo link will be active after the GitHub Pages deployment is complete.)*
+<div align="center">
+  <img src="https://via.placeholder.com/1200x400.png?text=Axon+AI+Marketplace" alt="Axon AI Banner" width="100%" />
+  
+  <h1>The One-Stop Solution for AI & Business Transformation</h1>
+  
+  <p>
+    <strong>Axon AI</strong> is a comprehensive platform designed to bridge the gap between cutting-edge Artificial Intelligence and enterprise business needs. We curate the world's best AI models, provide educational resources for upskilling, and offer expert consulting to drive digital transformation.
+  </p>
+</div>
 
 ---
 
-## Project Description
+## 🚀 Mission
+To **empower enterprises** with advanced AI technologies and provide businesses with the tools, knowledge, and expertise needed to thrive in the new era of intelligence.
 
-Axon AI is a modern, proof-of-concept web application for an AI tools marketplace and consulting service. The platform is designed to be a one-stop-shop for businesses looking to enhance their operations with artificial intelligence. It features a curated marketplace of AI tools and highlights a premium consulting service for complete business process automation.
+## ✨ Key Features
 
-The user interface is built with a sleek, futuristic **dark neumorphic** design, emphasizing a clean and intuitive user experience. An interactive 3D animation in the hero section provides a visually engaging introduction to the brand.
+### 1. Global AI Marketplace
+A curated registry of state-of-the-art AI tools and models.
+- **Categorized Directory**: Find tools for Image Generation, Text Analysis, Productivity, and more.
+- **Enterprise Solutions**: Specific solutions for Finance, HR, Marketing, and Sales automation.
+- **Smart Search**: Rapidly find models using our semantic search engine.
 
-## Key Features
+### 2. Knowledge Hub (Learning)
+A dedicated education portal for engineers and business leaders.
+- **Curated Video Courses**: Top content from industry leaders.
+- **Interactive Platforms**: Direct links to Kaggle, Hugging Face, and Coursera.
+- **GitHub Repositories**: Track trending enterprise-grade projects.
+- **Research Papers**: Stay ahead with links to arXiv and Papers with Code.
 
-- **Futuristic Neumorphic UI:** A beautiful dark-theme interface with soft, extruded UI elements for a tactile feel.
-- **Interactive 3D Hero Section:** A captivating `Three.js` animation greets users, creating a memorable first impression.
-- **AI Tools Marketplace:** A filterable grid of AI tools, categorized for easy browsing.
-- **Dynamic Filtering:** Users can filter tools by category (Marketing, Customer Support, etc.) to quickly find relevant solutions.
-- **Consulting Service Showcase:** A dedicated section that clearly communicates the value proposition of the AI automation consulting service.
-- **Responsive Design:** The layout is designed to be functional and aesthetically pleasing across different screen sizes.
+### 3. Live AI News Feed
+Stay updated with real-time developments.
+- **Aggregated RSS Feeds**: Live news from TechCrunch AI and other top sources.
+- **Visual Feed**: Engaging card-based layout with automatic image extraction.
 
-## Technologies Used
+### 4. Enterprise Consulting
+Expert guidance for transformation journeys.
+- **Strategic Advisory**: Roadmap creation and use-case identification.
+- **Implementation Services**: End-to-end deployment of GenAI solutions.
+- **Custom Development**: Tailored LLM fine-tuning and RAG architectures.
 
-- **Frontend:** [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/)
-- **3D Graphics:** [Three.js](https://threejs.org/)
-- **Styling:** [SCSS](https://sass-lang.com/) for advanced and organized styling.
+## 🛠️ Technology Stack
+- **Frontend**: React (Vite), TypeScript
+- **Styling**: SCSS (Modular & Global), Glassmorphism Design System
+- **Animation**: Three.js (Particle Systems), CSS Transitions
+- **Data**: RSS Integration (rss2json), Dynamic Mocking
 
-## Getting Started
+## 🔮 Future Scope
+- **User Accounts**: Personalized dashboards to save favorite tools and track learning progress.
+- **API Integration**: Direct API calls to test models (Hugging Face / OpenAI) directly within the marketplace.
+- **Community Forum**: A space for internal AI practitioners to share workflows and prompts.
+- **AI Agent Builder**: No-code interface to build and deploy custom autonomous agents.
 
-To run this project locally, follow these steps:
+## � Development Setup
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/abhij1306/axon-ai-marketplace.git
-    ```
-2.  **Navigate to the project directory:**
-    ```bash
-    cd axon-ai-marketplace
-    ```
-3.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-    The application will be available at `http://localhost:5173` (or the next available port).
+To run the project locally for development:
 
-## Future Scope
+```bash
+# Install dependencies
+npm install
 
-Axon AI is currently a prototype. Future development could expand its functionality significantly:
+# Start development server
+npm run dev
+```
 
-- **Full Backend Integration:** Implement a real backend (e.g., using Node.js/Express or Python/FastAPI) to allow sellers to create accounts and list their own AI tools.
-- **User Authentication:** Add a secure authentication system (e.g., OAuth, JWT) for buyers and sellers.
-- **E-commerce Functionality:** Integrate a payment gateway (e.g., Stripe, PayPal) to handle subscriptions or purchases of AI tools directly on the platform.
-- **Database for Tools:** Replace the mock data with a robust database (e.g., PostgreSQL, MongoDB) to store and manage a large number of AI tools.
-- **Blog & Content Platform:** Create a blog to publish articles about AI trends, case studies, and tutorials, driving organic traffic and establishing brand authority.
-- **Advanced Marketplace Features:** Implement advanced search, user ratings and reviews, and personalized recommendations for AI tools.
-- **Consultation Booking System:** Integrate a calendar and booking system to allow users to schedule free consultations directly on the site.
+---
+
+<p align="center">Built with ❤️ by the Axon AI Team</p>

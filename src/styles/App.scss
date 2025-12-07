@@ -9,6 +9,6 @@
 
   main {
     flex-grow: 1; // Allow main content to grow and push footer down
-    padding-top: 80px; // Offset for fixed header
+    padding-top: 0; // Header is sticky, no offset needed
   }
 }

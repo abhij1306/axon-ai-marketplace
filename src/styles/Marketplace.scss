@@ -1,64 +1,161 @@
-// src/styles/Marketplace.scss
 @import 'variables';
-@import 'neumorphism';
 
 .marketplace-section {
-  padding: 4rem 2rem;
-  max-width: 1200px;
+  padding: $spacing-xxl 0;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 0 $spacing-lg $spacing-xxl $spacing-lg;
 
   .marketplace-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: $spacing-xl;
 
     h2 {
-      font-size: 3rem;
-      color: $text-light;
-      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      margin-bottom: $spacing-sm;
+      background: $secondary-gradient;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     p {
-      font-size: 1.2rem;
-      color: $text-muted;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
     }
   }
 
-  .category-filters {
-    @include neumorphic(flat);
+  .filter-bar {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    padding: 1.5rem;
-    border-radius: 20px;
+    margin-bottom: $spacing-xl;
 
-    .category-button {
-      @include neumorphic(flat);
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      font-size: 1rem;
-      font-weight: bold;
-      color: $text-light;
-      background-color: $surface-dark;
-      transition: all 0.3s ease;
-      
-      &:hover {
-        @include neumorphic(hovered);
-        color: $accent-blue;
+    .search-filter {
+      width: 100%;
+      max-width: 500px;
+
+      input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: all 0.2s;
+
+        &:focus {
+          outline: none;
+          border-color: $accent-blue;
+          box-shadow: 0 0 0 2px rgba($accent-blue, 0.2);
+        }
       }
+    }
+  }
 
-      &.active {
-        @include neumorphic(pressed);
-        background-color: $accent-blue;
-        color: $text-light;
+  .section-header {
+    margin-bottom: $spacing-lg;
+
+    h3 {
+      font-size: 1.75rem;
+      margin: 0 0 8px 0;
+      color: var(--text-primary);
+    }
+
+    p {
+      color: var(--text-muted);
+      margin: 0;
+    }
+  }
+
+  .category-container {
+    overflow-x: auto;
+    padding-bottom: $spacing-md;
+    margin-bottom: $spacing-lg;
+
+    // Hide scrollbar but keep functionality
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    .category-list {
+      display: flex;
+      gap: $spacing-md;
+      min-width: min-content;
+
+      .category-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+
+        &:hover {
+          border-color: $accent-blue;
+          background: rgba($accent-blue, 0.1);
+        }
+
+        &.active {
+          background: $accent-blue;
+          border-color: $accent-blue;
+          color: white;
+
+          .icon {
+            background: rgba(255, 255, 255, 0.2);
+          }
+        }
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.05);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+        }
       }
     }
   }
 
   .tool-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-lg;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+    font-style: italic;
+    grid-column: 1 / -1;
   }
 }

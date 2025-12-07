@@ -1,13 +1,29 @@
-// src/styles/_variables.scss
+// Variables
+// Updated to use CSS Variables for Theming
 
-$background-dark: #2c2f33; // Main dark background
-$surface-dark: #36393f; // Slightly lighter surface for neumorphic elements
-$text-light: #ffffff; // Light text for dark background
-$text-muted: #b0b0b0; // Muted text for secondary info
-$accent-blue: #7289da; // Primary accent color (e.g., for buttons, links)
+$primary-gradient: var(--primary-gradient);
+$secondary-gradient: var(--secondary-gradient);
 
-// Neumorphism shadows
-$neumorphic-light-shadow: rgba(54, 57, 63, 0.7); // Darker shade for "light" shadow
-$neumorphic-dark-shadow: rgba(0, 0, 0, 0.7); // Even darker shade for "dark" shadow
-$neumorphic-blur: 10px;
-$neumorphic-distance: 5px;
+$background-dark: var(--bg-main);
+$surface-dark: var(--bg-surface);
+$background-secondary: var(--bg-secondary);
+
+$text-light: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-muted: var(--text-muted);
+
+$accent-blue: var(--accent-blue);
+$accent-purple: var(--accent-purple);
+$accent-pink: var(--accent-pink);
+
+$border-color: var(--border-color);
+$header-shadow: var(--header-shadow);
+$card-shadow: var(--card-shadow);
+
+// Spacing (Static)
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;

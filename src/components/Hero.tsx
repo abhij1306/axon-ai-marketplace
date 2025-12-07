@@ -1,94 +1,81 @@
-// src/components/Hero.tsx
-import React, { useRef, useEffect, useCallback } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import React from 'react';
+import { ArrowRight, Cpu, Zap, Sparkles, Briefcase } from 'lucide-react';
+import ThreeBackground from './ThreeBackground';
 import '../styles/Hero.scss';
 
-const Hero: React.FC = () => {
-  const mountRef = useRef<HTMLDivElement>(null);
+interface HeroProps {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+}
 
-  const initThreeJs = useCallback(() => {
-    if (!mountRef.current) return;
-
-    const currentMount = mountRef.current;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // alpha:true for transparent background
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    currentMount.appendChild(renderer.domElement);
-
-    camera.position.z = 5;
-
-    // Add subtle ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    // Add directional light for better neumorphic shadow effect
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(0, 1, 1).normalize();
-    scene.add(directionalLight);
-
-    // Create a simple geometric shape (e.g., a dodecahedron)
-    const geometry = new THREE.DodecahedronGeometry(1, 0);
-    const material = new THREE.MeshPhysicalMaterial({
-      color: 0x7289da, // Accent blue from variables
-      roughness: 0.2,
-      metalness: 0.5,
-      clearcoat: 1,
-      clearcoatRoughness: 0.1
-    });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    // OrbitControls for interactivity (optional, can be removed for static background)
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false;
-    controls.enablePan = false;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
-
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-
-      // Simple rotation for the mesh
-      mesh.rotation.x += 0.002;
-      mesh.rotation.y += 0.002;
-
-      controls.update(); // Only required if controls.enableDamping or controls.autoRotate are set to true
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      currentMount.removeChild(renderer.domElement);
-      renderer.dispose();
-      controls.dispose();
-    };
-  }, []);
-
-  useEffect(() => {
-    initThreeJs();
-  }, [initThreeJs]);
-
+const Hero: React.FC<HeroProps> = () => {
   return (
     <section className="hero">
-      <div className="hero-background" ref={mountRef} />
-      <div className="hero-content">
-        <h1>Axon AI</h1>
-        <p className="tagline">Your Business, Amplified by AI.</p>
-        <button className="cta-button">Explore Solutions</button>
+      <ThreeBackground />
+
+      <div className="hero-content-wrapper">
+
+        {/* Top: Wide Search Bar Removed (Moved to Header) */}
+        <div className="hero-search-top fade-in-down" style={{ display: 'none' }}>
+          {/* Legacy search removed to avoid duplication */}
+        </div>
+
+        <div className="hero-split-layout">
+          {/* Left Column: Brand & CTA */}
+          <div className="hero-left">
+            <div className="badge fade-in-up">
+              <Sparkles size={14} className="icon-pulse" />
+              <span>Now with Enterprise Agents</span>
+            </div>
+            <h1 className="fade-in-up delay-100">
+              Build the Future <br />
+              <span className="gradient-text">with Axon AI</span>
+            </h1>
+            <p className="tagline fade-in-up delay-200">
+              The premier marketplace for cutting-edge AI tools and enterprise-grade automation solutions. Accelerate your business today.
+            </p>
+            <div className="cta-group fade-in-up delay-300">
+              <a href="#solutions" className="btn btn-primary btn-lg">
+                Explore Solutions <ArrowRight size={20} style={{ marginLeft: '10px' }} />
+              </a>
+              <a href="#marketplace" className="btn btn-secondary btn-lg">
+                View Tools
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: Premium Navigation Options */}
+          <div className="hero-right fade-in-right delay-200">
+
+            <a href="#marketplace" className="premium-card">
+              <div className="card-icon"><Cpu size={28} /></div>
+              <div className="card-text">
+                <h3>AI Tools Registry</h3>
+                <p>100+ Top-tier applications</p>
+              </div>
+              <div className="card-arrow"><ArrowRight size={16} /></div>
+            </a>
+
+            <a href="#solutions" className="premium-card">
+              <div className="card-icon"><Zap size={28} /></div>
+              <div className="card-text">
+                <h3>Enterprise Solutions</h3>
+                <p>Custom HR & Finance setups</p>
+              </div>
+              <div className="card-arrow"><ArrowRight size={16} /></div>
+            </a>
+
+            <a href="#consulting" className="premium-card">
+              <div className="card-icon"><Briefcase size={28} /></div>
+              <div className="card-text">
+                <h3>AI Consulting</h3>
+                <p>Expert Automation Strategy</p>
+              </div>
+              <div className="card-arrow"><ArrowRight size={16} /></div>
+            </a>
+
+          </div>
+        </div>
       </div>
     </section>
   );
