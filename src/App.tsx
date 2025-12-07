@@ -1,5 +1,13 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
-// ... imports
+import Header from './components/Header';
+import Home from './components/Home';
+import Learning from './components/Learning';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Footer from './components/Footer';
+import { ThemeProvider } from './context/ThemeContext';
+import './styles/global.scss';
+import './styles/App.scss';
 
 function App() {
   return (
@@ -7,8 +15,6 @@ function App() {
       <HashRouter>
         <div className="App">
           <Header />
-          {/* ... */}
-
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -19,7 +25,7 @@ function App() {
           </main>
           <Footer />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   );
 }
