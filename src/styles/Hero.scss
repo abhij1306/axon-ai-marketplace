@@ -10,6 +10,11 @@
   overflow: hidden;
   padding-top: 8rem; // Increased space to account for fixed header + breathing room
 
+  @media (max-width: 768px) {
+    padding-top: 6rem;
+    /* Tighter spacing on mobile */
+  }
+
   .hero-content-wrapper {
     position: relative;
     z-index: 10;
@@ -153,7 +158,9 @@
       color: var(--text-primary); // Explicit
 
       @media (max-width: 768px) {
-        font-size: 3rem;
+        font-size: 2.25rem;
+        /* Optimized for mobile readability */
+        margin-bottom: $spacing-md;
       }
 
       .gradient-text {

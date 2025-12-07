@@ -17,6 +17,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+
+      @media (max-width: 768px) {
+        font-size: 1.8rem;
+        /* Compact section title */
+      }
     }
 
     p {
@@ -60,6 +65,11 @@
       font-size: 1.75rem;
       margin: 0 0 8px 0;
       color: var(--text-primary);
+
+      @media (max-width: 768px) {
+        font-size: 1.25rem;
+        /* Compact category title */
+      }
     }
 
     p {
@@ -134,9 +144,54 @@
   }
 
   .tool-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: $spacing-lg;
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    margin-right: calc(-1 * var(--container-padding));
+    /* Extend to edge on mobile if needed, though simpler is safer */
+    // Resetting margin hacks for desktop clarity
+    margin-right: 0;
+    padding-right: 1.5rem;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    /* Custom Scrollbar for Desktop Feed Feel */
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      /* Very subtle track */
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      /* Theme aware */
+      border-radius: 4px;
+
+      &:hover {
+        background: var(--text-muted);
+      }
+    }
+
+    >* {
+      /* Desktop: Fixed standard width */
+      flex: 0 0 320px;
+      width: 320px;
+      scroll-snap-align: start;
+
+      /* Mobile: 75% width centered */
+      @media (max-width: 768px) {
+        flex: 0 0 75vw;
+        /* Reduced from 85vw */
+        width: 75vw;
+        scroll-snap-align: center;
+      }
+    }
 
     @media (max-width: 1200px) {
       grid-template-columns: repeat(3, 1fr);
