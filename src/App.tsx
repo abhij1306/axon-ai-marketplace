@@ -4,6 +4,8 @@ import Home from './components/Home';
 import Learning from './components/Learning';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 import Footer from './components/Footer';
 import { ThemeProvider } from './context/ThemeContext';
 import './styles/global.scss';
@@ -21,6 +23,8 @@ function App() {
               <Route path="/learning" element={<Learning />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
             </Routes>
           </main>
           <Footer />

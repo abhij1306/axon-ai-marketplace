@@ -1,6 +1,5 @@
-// src/components/Footer.tsx
-import React from 'react';
-import '../styles/Footer.scss'; // Will create this file next
+import { Link } from 'react-router-dom';
+import '../styles/Footer.scss';
 
 const Footer: React.FC = () => {
   return (
@@ -8,8 +7,8 @@ const Footer: React.FC = () => {
       <div className="footer-container">
         <p>&copy; {new Date().getFullYear()} Axon AI. All rights reserved.</p>
         <div className="footer-links">
-          <a href="#privacy">Privacy Policy</a>
-          <a href="#terms">Terms of Service</a>
+          <Link to="/privacy">Privacy Policy</Link>
+          <Link to="/terms">Terms of Service</Link>
         </div>
       </div>
     </footer>
