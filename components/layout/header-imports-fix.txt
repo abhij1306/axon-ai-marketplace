@@ -1,0 +1,10 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { Sun, Moon, Search, LayoutGrid, Zap, GraduationCap, Briefcase, Menu, X, User, LogOut, Link as LinkIcon, ExternalLink, ChevronRight } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useAuth } from '@/lib/contexts/auth-context';
+import { toolsData, solutionsData } from '@/lib/data/tools';
+import { learningResources } from '@/lib/data/learning';
