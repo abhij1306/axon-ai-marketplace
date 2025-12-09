@@ -78,7 +78,7 @@ export default function NewsSection() {
                                 href={item.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex-shrink-0 w-80 glass-glow p-6 rounded-xl hover-lift transition-all animate-scale-in"
+                                className="group flex-shrink-0 w-64 glass-glow p-4 rounded-xl hover-lift transition-all animate-scale-in"
                                 style={{ animationDelay: `${index * 0.1}s` }}
                             >
                                 <div className="aspect-video relative mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-accent/20 to-primary/20">
