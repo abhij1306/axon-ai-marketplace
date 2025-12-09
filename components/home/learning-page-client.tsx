@@ -15,10 +15,13 @@ export default function LearningPageClient() {
     const [sortBy, setSortBy] = useState<SortOption>('popular');
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    // Get all unique categories
+    // Get all unique categories (excluding main sections)
     const allCategories = useMemo(() => {
         const cats = new Set(learningResources.map(r => r.category));
-        return ['All', ...Array.from(cats)];
+        const categoriesArray = Array.from(cats).filter(cat =>
+            cat !== 'Interactive' && cat !== 'Research' && cat !== 'Certifications'
+        );
+        return ['All', ...categoriesArray];
     }, []);
 
     // Filter resources based on section, category, and search
@@ -195,8 +198,8 @@ export default function LearningPageClient() {
                                     key={category}
                                     onClick={() => setSelectedCategory(category)}
                                     className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${selectedCategory === category
-                                            ? 'gradient-primary text-white shadow-glow'
-                                            : 'glass-panel hover:bg-white/10 hover:border-primary/50'
+                                        ? 'gradient-primary text-white shadow-glow'
+                                        : 'glass-panel hover:bg-white/10 hover:border-primary/50'
                                         }`}
                                 >
                                     {category}
