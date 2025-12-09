@@ -70,7 +70,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'The latest iteration promises unprecedented reasoning and multimodal understanding.',
             url: 'https://openai.com',
             imageUrl: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80',
-            date: formatDate(2),
+            date: formatDate(0), // Today
             source: 'OpenAI'
         },
         {
@@ -79,7 +79,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'AlphaFold 3 can now predict complex molecular interactions with 95% accuracy.',
             url: 'https://deepmind.google',
             imageUrl: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80',
-            date: formatDate(3),
+            date: formatDate(1), // Yesterday
             source: 'DeepMind'
         },
         {
@@ -88,7 +88,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'New model outperforms GPT-4 on several benchmarks while remaining fully open.',
             url: 'https://ai.meta.com',
             imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80',
-            date: formatDate(4),
+            date: formatDate(2), // 2 days ago
             source: 'Meta AI'
         },
         {
@@ -97,7 +97,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'Enhanced constitutional AI ensures more reliable and ethical responses.',
             url: 'https://anthropic.com',
             imageUrl: 'https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=800&q=80',
-            date: formatDate(5),
+            date: formatDate(3), // 3 days ago
             source: 'Anthropic'
         },
         {
@@ -106,7 +106,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'New update allows real-time image analysis and generation within Office suite.',
             url: 'https://microsoft.com/copilot',
             imageUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80',
-            date: formatDate(6),
+            date: formatDate(4), // 4 days ago
             source: 'Microsoft'
         },
         {
@@ -115,7 +115,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'Generate high-quality images in under a second with the new diffusion model.',
             url: 'https://stability.ai',
             imageUrl: 'https://images.unsplash.com/photo-1547954575-855750c57bd3?w=800&q=80',
-            date: formatDate(7),
+            date: formatDate(5), // 5 days ago
             source: 'Stability AI'
         },
         {
@@ -124,7 +124,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'New Blackwell architecture promises breakthrough in AI training efficiency.',
             url: 'https://nvidia.com',
             imageUrl: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800&q=80',
-            date: formatDate(8),
+            date: formatDate(6), // 6 days ago
             source: 'Nvidia'
         },
         {
@@ -133,7 +133,7 @@ function getFallbackNews(): NewsItem[] {
             description: 'New tools help developers build safer and more transparent AI systems.',
             url: 'https://huggingface.co',
             imageUrl: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=800&q=80',
-            date: formatDate(9),
+            date: formatDate(7), // 7 days ago
             source: 'Hugging Face'
         },
     ];
