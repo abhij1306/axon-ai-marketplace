@@ -1,7 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Newspaper, Calendar } from 'lucide-react';
+import { Newspaper, Calendar, Clock } from 'lucide-react';
 
 interface NewsItem {
     id: string;
@@ -10,64 +11,48 @@ interface NewsItem {
     url: string;
     imageUrl: string;
     date: string;
-}
-
-function getNews(): NewsItem[] {
-    // Mock data - in production, fetch from an API
-    return [
-        {
-            id: '1',
-            title: 'OpenAI Announces GPT-5 with Revolutionary Capabilities',
-            description: 'The latest iteration promises unprecedented reasoning and multimodal understanding.',
-            url: 'https://openai.com',
-            imageUrl: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80',
-            date: 'Dec 7, 2024',
-        },
-        {
-            id: '2',
-            title: 'Google DeepMind Achieves Breakthrough in Protein Folding',
-            description: 'AlphaFold 3 can now predict complex molecular interactions with 95% accuracy.',
-            url: 'https://deepmind.google',
-            imageUrl: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80',
-            date: 'Dec 6, 2024',
-        },
-        {
-            id: '3',
-            title: 'Meta Releases Open-Source Llama 3.5 Model',
-            description: 'New model outperforms GPT-4 on several benchmarks while remaining fully open.',
-            url: 'https://ai.meta.com',
-            imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80',
-            date: 'Dec 5, 2024',
-        },
-        {
-            id: '4',
-            title: 'Anthropic\'s Claude 3.5 Sonnet Sets New Safety Standards',
-            description: 'Enhanced constitutional AI ensures more reliable and ethical responses.',
-            url: 'https://anthropic.com',
-            imageUrl: 'https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=800&q=80',
-            date: 'Dec 4, 2024',
-        },
-        {
-            id: '5',
-            title: 'Microsoft Copilot Integrates Advanced Vision Capabilities',
-            description: 'New update allows real-time image analysis and generation within Office suite.',
-            url: 'https://microsoft.com/copilot',
-            imageUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80',
-            date: 'Dec 3, 2024',
-        },
-        {
-            id: '6',
-            title: 'Stability AI Unveils SDXL Turbo for Real-Time Generation',
-            description: 'Generate high-quality images in under a second with the new diffusion model.',
-            url: 'https://stability.ai',
-            imageUrl: 'https://images.unsplash.com/photo-1547954575-855750c57bd3?w=800&q=80',
-            date: 'Dec 2, 2024',
-        },
-    ];
+    source: string;
 }
 
 export default function NewsSection() {
-    const newsItems = getNews();
+    const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+    const [lastUpdated, setLastUpdated] = useState<string>('');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchNews() {
+            try {
+                const response = await fetch('/api/news');
+                const data = await response.json();
+                setNewsItems(data.news);
+                setLastUpdated(new Date(data.lastUpdated).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }));
+            } catch (error) {
+                console.error('Failed to fetch news:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchNews();
+        // Refresh every 4 hours
+        const interval = setInterval(fetchNews, 4 * 60 * 60 * 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    if (loading) {
+        return (
+            <section className="py-20 bg-muted/20">
+                <div className="container mx-auto">
+                    <div className="flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="py-20 bg-muted/20">
@@ -79,24 +64,24 @@ export default function NewsSection() {
                             Latest <span className="gradient-text">AI Developments</span>
                         </h2>
                     </div>
-                    <div className="flex items-center gap-2 text-sm gradient-accent px-3 py-1 rounded-full glass-panel">
-                        <span className="w-2 h-2 bg-accent rounded-full animate-glow-pulse"></span>
-                        Live Feed
+                    <div className="flex items-center gap-2 text-sm px-3 py-1 rounded-full glass-panel">
+                        <Clock className="h-3 w-3 text-accent" />
+                        <span className="text-muted-foreground">Updated {lastUpdated}</span>
                     </div>
                 </div>
 
                 <div className="overflow-x-auto pb-4 custom-scrollbar">
-                    <div className="flex gap-4" style={{ minWidth: 'min-content' }}>
+                    <div className="flex gap-6" style={{ minWidth: 'min-content' }}>
                         {newsItems.map((item, index) => (
                             <a
                                 key={item.id}
                                 href={item.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex-shrink-0 w-48 glass-glow p-3 rounded-xl hover-lift transition-all animate-scale-in"
+                                className="group flex-shrink-0 w-80 glass-glow p-6 rounded-xl hover-lift transition-all animate-scale-in"
                                 style={{ animationDelay: `${index * 0.1}s` }}
                             >
-                                <div className="aspect-video relative mb-2 rounded-lg overflow-hidden bg-gradient-to-br from-accent/20 to-primary/20">
+                                <div className="aspect-video relative mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-accent/20 to-primary/20">
                                     <Image
                                         src={item.imageUrl}
                                         alt={item.title}
@@ -105,20 +90,28 @@ export default function NewsSection() {
                                         unoptimized
                                         onError={(e) => {
                                             const target = e.currentTarget;
-                                            target.src = '/placeholder.png';
+                                            target.src = 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80';
                                         }}
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </div>
 
-                                <div className="space-y-1">
-                                    <h3 className="font-semibold text-xs line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs px-2 py-1 rounded-full bg-primary/20 text-primary font-medium">
+                                            {item.source}
+                                        </span>
+                                    </div>
+
+                                    <h3 className="font-bold text-base line-clamp-2 group-hover:text-primary transition-colors leading-tight">
                                         {item.title}
                                     </h3>
-                                    <p className="text-[10px] text-muted-foreground line-clamp-2 leading-snug">
+
+                                    <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
                                         {item.description}
                                     </p>
-                                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground pt-1">
+
+                                    <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2 border-t border-white/10">
                                         <Calendar className="h-3 w-3" />
                                         <span>{item.date}</span>
                                     </div>
