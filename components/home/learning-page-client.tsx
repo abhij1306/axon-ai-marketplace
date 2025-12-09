@@ -15,14 +15,31 @@ export default function LearningPageClient() {
     const [sortBy, setSortBy] = useState<SortOption>('popular');
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    // Get categories based on selected section
+    // Get categories based on selected section (section-specific)
     const allCategories = useMemo(() => {
-        const cats = new Set(learningResources.map(r => r.category));
+        let filtered = learningResources;
+
+        // Filter resources by section first
+        if (selectedSection === 'YouTube') {
+            filtered = filtered.filter(r => r.type === 'video');
+        } else if (selectedSection === 'GitHub') {
+            filtered = filtered.filter(r => r.type === 'github');
+        } else if (selectedSection === 'Certifications') {
+            filtered = filtered.filter(r => r.type === 'certification');
+        } else if (selectedSection === 'Interactive') {
+            filtered = filtered.filter(r => r.category === 'Interactive');
+        } else if (selectedSection === 'Research') {
+            filtered = filtered.filter(r => r.category === 'Research');
+        }
+
+        // Get unique categories from filtered resources
+        const cats = new Set(filtered.map(r => r.category));
         const categoriesArray = Array.from(cats).filter(cat =>
             cat !== 'Interactive' && cat !== 'Research'
         );
+
         return ['All', ...categoriesArray];
-    }, []);
+    }, [selectedSection]);
 
     // Determine if we should show category pills
     const showCategoryPills = useMemo(() => {
