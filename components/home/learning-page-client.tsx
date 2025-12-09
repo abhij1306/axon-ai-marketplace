@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { learningResources } from '@/lib/data/learning';
 import { Users, Youtube, Search, SlidersHorizontal, Menu, X } from 'lucide-react';
 import Image from 'next/image';
@@ -14,6 +14,11 @@ export default function LearningPageClient() {
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState<SortOption>('popular');
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    // Auto-reset category when switching sections
+    useEffect(() => {
+        setSelectedCategory('All');
+    }, [selectedSection]);
 
     // Get categories based on selected section (section-specific)
     const allCategories = useMemo(() => {
@@ -66,7 +71,7 @@ export default function LearningPageClient() {
             } else if (selectedSection === 'Research') {
                 filtered = filtered.filter(r => r.category === 'Research');
             } else if (selectedSection === 'Certifications') {
-                filtered = filtered.filter(r => r.category === 'Certifications');
+                filtered = filtered.filter(r => r.type === 'certification');
             }
         }
 
