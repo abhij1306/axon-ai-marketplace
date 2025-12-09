@@ -1,27 +1,88 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { learningResources } from '@/lib/data/learning';
-import { Users, Youtube } from 'lucide-react';
+import { Users, Youtube, Search, SlidersHorizontal, Menu, X } from 'lucide-react';
 import Image from 'next/image';
 
+type SectionFilter = 'All' | 'YouTube' | 'GitHub' | 'Interactive' | 'Research';
+type SortOption = 'popular' | 'name';
+
 export default function LearningPageClient() {
-    const youtubeCategories = ['Large Language Models', 'Generative AI', 'Agentic AI', 'Automation', 'DSA'];
-    const [selectedYouTubeCategory, setSelectedYouTubeCategory] = useState('All');
+    const [selectedSection, setSelectedSection] = useState<SectionFilter>('All');
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [sortBy, setSortBy] = useState<SortOption>('popular');
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const youtubeResources = learningResources.filter(r => r.type === 'video');
-    const filteredYouTube = selectedYouTubeCategory === 'All'
-        ? youtubeResources
-        : youtubeResources.filter(r => r.category === selectedYouTubeCategory);
+    // Get all unique categories
+    const allCategories = useMemo(() => {
+        const cats = new Set(learningResources.map(r => r.category));
+        return ['All', ...Array.from(cats)];
+    }, []);
 
-    const githubResources = learningResources.filter(r => r.type === 'github');
-    const interactiveResources = learningResources.filter(r => r.category === 'Interactive');
-    const researchResources = learningResources.filter(r => r.category === 'Research');
+    // Filter resources based on section, category, and search
+    const filteredResources = useMemo(() => {
+        let filtered = learningResources;
+
+        // Filter by section
+        if (selectedSection !== 'All') {
+            if (selectedSection === 'YouTube') {
+                filtered = filtered.filter(r => r.type === 'video');
+            } else if (selectedSection === 'GitHub') {
+                filtered = filtered.filter(r => r.type === 'github');
+            } else if (selectedSection === 'Interactive') {
+                filtered = filtered.filter(r => r.category === 'Interactive');
+            } else if (selectedSection === 'Research') {
+                filtered = filtered.filter(r => r.category === 'Research');
+            }
+        }
+
+        // Filter by category
+        if (selectedCategory !== 'All') {
+            filtered = filtered.filter(r => r.category === selectedCategory);
+        }
+
+        // Filter by search query
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter(r =>
+                r.name.toLowerCase().includes(query) ||
+                r.desc.toLowerCase().includes(query) ||
+                r.category.toLowerCase().includes(query)
+            );
+        }
+
+        // Sort
+        if (sortBy === 'name') {
+            filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        return filtered;
+    }, [selectedSection, selectedCategory, searchQuery, sortBy]);
+
+    const getSectionIcon = (type: string) => {
+        switch (type) {
+            case 'video':
+                return <Youtube className="h-4 w-4 text-red-500" />;
+            case 'github':
+                return (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                );
+            case 'platform':
+                return <SlidersHorizontal className="h-4 w-4 text-blue-500" />;
+            default:
+                return <SlidersHorizontal className="h-4 w-4 text-purple-500" />;
+        }
+    };
 
     return (
         <div className="min-h-screen py-20 bg-background">
             <div className="container mx-auto">
-                <div className="max-w-4xl mx-auto text-center mb-16 animate-fade-in-up">
+                {/* Header */}
+                <div className="max-w-4xl mx-auto text-center mb-12 animate-fade-in-up">
                     <div className="inline-flex items-center gap-2 px-4 py-2 glass-glow rounded-full text-sm font-medium mb-4 border border-primary/20">
                         <span className="w-2 h-2 bg-primary rounded-full animate-glow-pulse"></span>
                         Knowledge Hub
@@ -34,211 +95,192 @@ export default function LearningPageClient() {
                     </p>
                 </div>
 
-                {/* YouTube Section */}
-                <div className="mb-20">
-                    <div className="flex flex-wrap gap-3 mb-8">
-                        <button
-                            onClick={() => setSelectedYouTubeCategory('All')}
-                            className={`px-6 py-3 rounded-full transition-all font-medium ${selectedYouTubeCategory === 'All'
-                                ? 'gradient-primary text-white shadow-glow'
-                                : 'glass-panel hover:bg-white/10 hover:border-primary/50'
-                                }`}
-                        >
-                            <span className="mr-2">◈</span>
-                            All
-                        </button>
-                        {youtubeCategories.map(cat => (
-                            <button
-                                key={cat}
-                                onClick={() => setSelectedYouTubeCategory(cat)}
-                                className={`px-6 py-3 rounded-full transition-all font-medium ${selectedYouTubeCategory === cat
-                                    ? 'gradient-primary text-white shadow-glow'
-                                    : 'glass-panel hover:bg-white/10 hover:border-primary/50'
-                                    }`}
+                {/* Main Layout */}
+                <div className="flex gap-6 relative">
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        className="lg:hidden fixed top-24 left-4 z-50 p-2 glass-panel rounded-lg hover:bg-white/10"
+                    >
+                        {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                    </button>
+
+                    {/* Left Sidebar */}
+                    <aside className={`
+                        fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] lg:h-auto
+                        w-64 flex-shrink-0 glass-panel p-4 rounded-xl
+                        transition-transform duration-300 z-40
+                        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+                    `}>
+                        <div className="space-y-6 overflow-y-auto h-full custom-scrollbar">
+                            {/* Main Sections */}
+                            <div>
+                                <h3 className="text-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
+                                    <SlidersHorizontal className="h-4 w-4" />
+                                    Sections
+                                </h3>
+                                <div className="space-y-1">
+                                    {(['All', 'YouTube', 'GitHub', 'Interactive', 'Research'] as SectionFilter[]).map(section => (
+                                        <button
+                                            key={section}
+                                            onClick={() => {
+                                                setSelectedSection(section);
+                                                setSidebarOpen(false);
+                                            }}
+                                            className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm font-medium ${selectedSection === section
+                                                    ? 'gradient-primary text-white shadow-glow'
+                                                    : 'hover:bg-white/5'
+                                                }`}
+                                        >
+                                            {section === 'YouTube' && '📺 '}
+                                            {section === 'GitHub' && '💻 '}
+                                            {section === 'Interactive' && '🎮 '}
+                                            {section === 'Research' && '📚 '}
+                                            {section === 'All' && '◈ '}
+                                            {section === 'YouTube' ? 'YouTube Channels' :
+                                                section === 'GitHub' ? 'GitHub Repos' :
+                                                    section === 'Interactive' ? 'Interactive Platforms' :
+                                                        section}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Category Filters */}
+                            <div>
+                                <h3 className="text-sm font-semibold text-muted-foreground mb-3">Categories</h3>
+                                <div className="space-y-1">
+                                    {allCategories.map(category => (
+                                        <button
+                                            key={category}
+                                            onClick={() => {
+                                                setSelectedCategory(category);
+                                                setSidebarOpen(false);
+                                            }}
+                                            className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm ${selectedCategory === category
+                                                    ? 'bg-primary/20 text-primary font-medium'
+                                                    : 'hover:bg-white/5'
+                                                }`}
+                                        >
+                                            {category}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    {/* Overlay for mobile */}
+                    {sidebarOpen && (
+                        <div
+                            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+                            onClick={() => setSidebarOpen(false)}
+                        />
+                    )}
+
+                    {/* Main Content */}
+                    <main className="flex-1 min-w-0">
+                        {/* Top Bar */}
+                        <div className="glass-panel p-4 rounded-xl mb-6 flex flex-col sm:flex-row gap-4">
+                            {/* Search */}
+                            <div className="flex-1 relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <input
+                                    type="text"
+                                    placeholder="Search resources..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2 bg-background/50 border border-white/10 rounded-lg focus:outline-none focus:border-primary/50 transition-colors"
+                                />
+                            </div>
+
+                            {/* Sort */}
+                            <select
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                                className="px-4 py-2 bg-background/50 border border-white/10 rounded-lg focus:outline-none focus:border-primary/50 transition-colors cursor-pointer"
                             >
-                                {cat}
-                            </button>
-                        ))}
-                    </div>
+                                <option value="popular">Most Popular</option>
+                                <option value="name">A-Z</option>
+                            </select>
+                        </div>
 
-                    <div className="flex items-center gap-2 mb-6">
-                        <Youtube className="h-6 w-6 text-red-500" />
-                        <h2 className="text-2xl font-bold">Top YouTube Channels</h2>
-                    </div>
+                        {/* Results Count */}
+                        <div className="mb-4 text-sm text-muted-foreground">
+                            Showing {filteredResources.length} resource{filteredResources.length !== 1 ? 's' : ''}
+                        </div>
 
-                    <div className="-mx-4 md:-mx-6 lg:-mx-8">
-                        <div className="overflow-x-auto pb-4 custom-scrollbar px-4 md:px-6 lg:px-8">
-                            <div className="flex gap-4" style={{ minWidth: 'min-content' }}>
-                                {filteredYouTube.map((resource, idx) => (
-                                    <a
-                                        key={idx}
-                                        href={resource.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="glass-glow p-3 rounded-xl hover:bg-white/10 transition-all group flex-shrink-0 w-52 hover-lift"
-                                    >
-                                        <div className="flex items-center gap-2 mb-2">
-                                            {resource.logoUrl && (
-                                                <div className="w-10 h-10 relative flex-shrink-0 rounded-full overflow-hidden bg-muted">
-                                                    <Image
-                                                        src={resource.logoUrl}
-                                                        alt={resource.name}
-                                                        width={40}
-                                                        height={40}
-                                                        className="object-cover"
-                                                        unoptimized
-                                                        onError={(e) => {
-                                                            e.currentTarget.style.display = 'none';
-                                                        }}
-                                                    />
-                                                </div>
-                                            )}
-                                            <div className="flex-1 min-w-0">
-                                                <h3 className="font-semibold truncate text-xs group-hover:text-primary transition-colors">{resource.name}</h3>
-                                            </div>
-                                        </div>
-                                        {resource.subscribers && (
-                                            <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                                                <Users className="h-3 w-3" />
-                                                <span>{resource.subscribers}</span>
-                                            </div>
+                        {/* Resource Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            {filteredResources.map((resource, idx) => (
+                                <a
+                                    key={idx}
+                                    href={resource.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="glass-glow rounded-xl overflow-hidden hover:bg-white/10 transition-all group hover-lift"
+                                >
+                                    {/* Thumbnail/Logo */}
+                                    <div className="aspect-video bg-gradient-to-br from-primary/20 to-purple-500/20 relative overflow-hidden">
+                                        {resource.logoUrl && (
+                                            <Image
+                                                src={resource.logoUrl}
+                                                alt={resource.name}
+                                                fill
+                                                className="object-cover"
+                                                unoptimized
+                                                onError={(e) => {
+                                                    e.currentTarget.style.display = 'none';
+                                                }}
+                                            />
                                         )}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                        <div className="absolute bottom-2 right-2">
+                                            {getSectionIcon(resource.type)}
+                                        </div>
+                                    </div>
 
-                {/* GitHub Repositories Section */}
-                <div className="mb-20">
-                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                        </svg>
-                        GitHub Repositories
-                    </h2>
-                    <div className="-mx-4 md:-mx-6 lg:-mx-8">
-                        <div className="overflow-x-auto pb-4 custom-scrollbar px-4 md:px-6 lg:px-8">
-                            <div className="flex gap-4" style={{ minWidth: 'min-content' }}>
-                                {githubResources.map((resource, idx) => (
-                                    <a
-                                        key={idx}
-                                        href={resource.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="glass-glow p-3 rounded-xl hover:bg-white/10 transition-all group flex-shrink-0 w-52 hover-lift"
-                                    >
-                                        <div className="flex items-center gap-2 mb-2">
-                                            {resource.logoUrl && (
-                                                <div className="w-10 h-10 relative flex-shrink-0 rounded-full overflow-hidden bg-muted">
-                                                    <Image
-                                                        src={resource.logoUrl}
-                                                        alt={resource.name}
-                                                        width={40}
-                                                        height={40}
-                                                        className="object-cover"
-                                                        unoptimized
-                                                        onError={(e) => {
-                                                            e.currentTarget.style.display = 'none';
-                                                        }}
-                                                    />
-                                                </div>
-                                            )}
+                                    {/* Content */}
+                                    <div className="p-3">
+                                        <div className="flex items-start gap-2 mb-2">
                                             <div className="flex-1 min-w-0">
-                                                <h3 className="font-semibold truncate text-xs group-hover:text-primary transition-colors">{resource.name}</h3>
+                                                <h3 className="font-semibold text-sm line-clamp-2 group-hover:text-primary transition-colors mb-1">
+                                                    {resource.name}
+                                                </h3>
+                                                <p className="text-xs text-muted-foreground line-clamp-2">
+                                                    {resource.desc}
+                                                </p>
                                             </div>
                                         </div>
-                                        <p className="text-[10px] text-muted-foreground line-clamp-2 mb-2">{resource.desc}</p>
-                                        {resource.subscribers && (
-                                            <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                <span>{resource.subscribers}</span>
-                                            </div>
-                                        )}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                {/* Interactive Section */}
-                <div className="mb-20">
-                    <h2 className="text-2xl font-bold mb-6">Interactive Platforms</h2>
-                    <div className="-mx-4 md:-mx-6 lg:-mx-8">
-                        <div className="overflow-x-auto pb-4 custom-scrollbar px-4 md:px-6 lg:px-8">
-                            <div className="flex gap-4" style={{ minWidth: 'min-content' }}>
-                                {interactiveResources.map((resource, idx) => (
-                                    <a
-                                        key={idx}
-                                        href={resource.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="glass-glow p-4 rounded-xl hover:bg-white/10 transition-all group flex-shrink-0 w-52 hover-lift"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            {resource.logoUrl && (
-                                                <div className="w-12 h-12 relative flex-shrink-0 rounded-lg overflow-hidden bg-muted">
-                                                    <Image
-                                                        src={resource.logoUrl}
-                                                        alt={resource.name}
-                                                        width={48}
-                                                        height={48}
-                                                        className="object-cover"
-                                                        unoptimized
-                                                    />
+                                        {/* Metadata */}
+                                        <div className="flex items-center justify-between text-xs text-muted-foreground mt-2 pt-2 border-t border-white/5">
+                                            <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-medium">
+                                                {resource.category}
+                                            </span>
+                                            {resource.subscribers && (
+                                                <div className="flex items-center gap-1">
+                                                    <Users className="h-3 w-3" />
+                                                    <span>{resource.subscribers}</span>
                                                 </div>
                                             )}
-                                            <div className="flex-1 min-w-0">
-                                                <h3 className="font-semibold truncate text-sm group-hover:text-primary transition-colors">{resource.name}</h3>
-                                            </div>
                                         </div>
-                                    </a>
-                                ))}
-                            </div>
+                                    </div>
+                                </a>
+                            ))}
                         </div>
-                    </div>
-                </div>
 
-                {/* Research Section */}
-                <div>
-                    <h2 className="text-2xl font-bold mb-6">Research</h2>
-                    <div className="-mx-4 md:-mx-6 lg:-mx-8">
-                        <div className="overflow-x-auto pb-4 custom-scrollbar px-4 md:px-6 lg:px-8">
-                            <div className="flex gap-4" style={{ minWidth: 'min-content' }}>
-                                {researchResources.map((resource, idx) => (
-                                    <a
-                                        key={idx}
-                                        href={resource.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="glass-glow p-4 rounded-xl hover:bg-white/10 transition-all group flex-shrink-0 w-52 hover-lift"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            {resource.logoUrl && (
-                                                <div className="w-12 h-12 relative flex-shrink-0 rounded-lg overflow-hidden bg-muted">
-                                                    <Image
-                                                        src={resource.logoUrl}
-                                                        alt={resource.name}
-                                                        width={48}
-                                                        height={48}
-                                                        className="object-cover"
-                                                        unoptimized
-                                                    />
-                                                </div>
-                                            )}
-                                            <div className="flex-1 min-w-0">
-                                                <h3 className="font-semibold truncate text-sm group-hover:text-primary transition-colors">{resource.name}</h3>
-                                            </div>
-                                        </div>
-                                    </a>
-                                ))}
+                        {/* Empty State */}
+                        {filteredResources.length === 0 && (
+                            <div className="text-center py-12 glass-panel rounded-xl">
+                                <Search className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                                <h3 className="text-lg font-semibold mb-2">No resources found</h3>
+                                <p className="text-muted-foreground">
+                                    Try adjusting your filters or search query
+                                </p>
                             </div>
-                        </div>
-                    </div>
+                        )}
+                    </main>
                 </div>
             </div>
         </div>
