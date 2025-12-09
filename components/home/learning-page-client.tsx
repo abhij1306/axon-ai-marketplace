@@ -5,7 +5,7 @@ import { learningResources } from '@/lib/data/learning';
 import { Users, Youtube, Search, SlidersHorizontal, Menu, X } from 'lucide-react';
 import Image from 'next/image';
 
-type SectionFilter = 'All' | 'YouTube' | 'GitHub' | 'Interactive' | 'Research';
+type SectionFilter = 'All' | 'YouTube' | 'GitHub' | 'Interactive' | 'Research' | 'Certifications';
 type SortOption = 'popular' | 'name';
 
 export default function LearningPageClient() {
@@ -35,6 +35,8 @@ export default function LearningPageClient() {
                 filtered = filtered.filter(r => r.category === 'Interactive');
             } else if (selectedSection === 'Research') {
                 filtered = filtered.filter(r => r.category === 'Research');
+            } else if (selectedSection === 'Certifications') {
+                filtered = filtered.filter(r => r.category === 'Certifications');
             }
         }
 
@@ -120,7 +122,7 @@ export default function LearningPageClient() {
                                     Sections
                                 </h3>
                                 <div className="space-y-1">
-                                    {(['All', 'YouTube', 'GitHub', 'Interactive', 'Research'] as SectionFilter[]).map(section => (
+                                    {(['All', 'YouTube', 'GitHub', 'Interactive', 'Research', 'Certifications'] as SectionFilter[]).map(section => (
                                         <button
                                             key={section}
                                             onClick={() => {
@@ -128,14 +130,15 @@ export default function LearningPageClient() {
                                                 setSidebarOpen(false);
                                             }}
                                             className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm font-medium ${selectedSection === section
-                                                    ? 'gradient-primary text-white shadow-glow'
-                                                    : 'hover:bg-white/5'
+                                                ? 'gradient-primary text-white shadow-glow'
+                                                : 'hover:bg-white/5'
                                                 }`}
                                         >
                                             {section === 'YouTube' && '📺 '}
                                             {section === 'GitHub' && '💻 '}
                                             {section === 'Interactive' && '🎮 '}
                                             {section === 'Research' && '📚 '}
+                                            {section === 'Certifications' && '🎓 '}
                                             {section === 'All' && '◈ '}
                                             {section === 'YouTube' ? 'YouTube Channels' :
                                                 section === 'GitHub' ? 'GitHub Repos' :
@@ -146,27 +149,7 @@ export default function LearningPageClient() {
                                 </div>
                             </div>
 
-                            {/* Category Filters */}
-                            <div>
-                                <h3 className="text-sm font-semibold text-muted-foreground mb-3">Categories</h3>
-                                <div className="space-y-1">
-                                    {allCategories.map(category => (
-                                        <button
-                                            key={category}
-                                            onClick={() => {
-                                                setSelectedCategory(category);
-                                                setSidebarOpen(false);
-                                            }}
-                                            className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm ${selectedCategory === category
-                                                    ? 'bg-primary/20 text-primary font-medium'
-                                                    : 'hover:bg-white/5'
-                                                }`}
-                                        >
-                                            {category}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
+
                         </div>
                     </aside>
 
@@ -203,6 +186,22 @@ export default function LearningPageClient() {
                                 <option value="popular">Most Popular</option>
                                 <option value="name">A-Z</option>
                             </select>
+                        </div>
+
+                        {/* Category Pills */}
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            {allCategories.map(category => (
+                                <button
+                                    key={category}
+                                    onClick={() => setSelectedCategory(category)}
+                                    className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${selectedCategory === category
+                                            ? 'gradient-primary text-white shadow-glow'
+                                            : 'glass-panel hover:bg-white/10 hover:border-primary/50'
+                                        }`}
+                                >
+                                    {category}
+                                </button>
+                            ))}
                         </div>
 
                         {/* Results Count */}
