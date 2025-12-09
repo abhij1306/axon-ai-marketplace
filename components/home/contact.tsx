@@ -59,7 +59,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <strong className="block text-sm text-muted-foreground">Email</strong>
-                                    <span>info@axonai.com</span>
+                                    <span>abhij1306@gmail.com</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3 p-4 glass-panel rounded-lg hover-lift">
@@ -68,7 +68,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <strong className="block text-sm text-muted-foreground">Phone</strong>
-                                    <span>+1 (555) 123-4567</span>
+                                    <span>+91 8999635679</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3 p-4 glass-panel rounded-lg hover-lift">
@@ -77,7 +77,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <strong className="block text-sm text-muted-foreground">Location</strong>
-                                    <span>San Francisco, CA</span>
+                                    <span>Bhopal, India</span>
                                 </div>
                             </div>
                         </div>
