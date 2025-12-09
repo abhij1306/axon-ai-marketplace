@@ -26,7 +26,13 @@ async function fetchFromNewsAPI(): Promise<NewsItem[]> {
 
     try {
         const response = await fetch(
-            `https://newsapi.org/v2/everything?q=artificial+intelligence+OR+AI+OR+machine+learning+OR+GPT+OR+LLM&language=en&sortBy=publishedAt&pageSize=10&apiKey=${apiKey}`,
+            `https://newsapi.org/v2/everything?` +
+            `q=(OpenAI OR "Google AI" OR DeepMind OR Anthropic OR "Meta AI" OR GPT OR LLM OR "machine learning" OR "deep learning" OR "neural network" OR transformer OR "AI model")` +
+            `&domains=techcrunch.com,venturebeat.com,theverge.com,arstechnica.com,wired.com,technologyreview.com` +
+            `&language=en` +
+            `&sortBy=publishedAt` +
+            `&pageSize=10` +
+            `&apiKey=${apiKey}`,
             { next: { revalidate: 14400 } } // Cache for 4 hours
         );
 
