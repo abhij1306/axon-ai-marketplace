@@ -9,16 +9,16 @@
     /* Very dark background like Raycast */
     --background: 220 20% 4%;
     --foreground: 0 0% 98%;
-    /* Vibrant purple/violet primary */
-    --primary: 270 70% 65%;
+    /* Vibrant blue primary */
+    --primary: 210 100% 60%;
     --primary-foreground: 0 0% 98%;
     --secondary: 220 20% 8%;
     --secondary-foreground: 0 0% 98%;
     /* Vibrant cyan/teal accent */
     --accent: 180 85% 60%;
     --accent-foreground: 0 0% 98%;
-    /* Pink accent for gradients */
-    --pink: 330 85% 65%;
+    /* Electric blue for gradients */
+    --pink: 200 100% 55%;
     --muted: 220 20% 10%;
     --muted-foreground: 0 0% 65%;
     --border: 220 20% 12%;
@@ -27,13 +27,13 @@
   .light {
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
-    --primary: 270 70% 60%;
+    --primary: 210 100% 55%;
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
     --accent: 180 85% 55%;
     --accent-foreground: 0 0% 100%;
-    --pink: 330 85% 60%;
+    --pink: 200 100% 50%;
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
     --border: 214 32% 91%;
