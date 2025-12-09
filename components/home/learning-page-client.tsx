@@ -15,14 +15,24 @@ export default function LearningPageClient() {
     const [sortBy, setSortBy] = useState<SortOption>('popular');
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    // Get all unique categories (excluding main sections)
+    // Get categories based on selected section
     const allCategories = useMemo(() => {
         const cats = new Set(learningResources.map(r => r.category));
         const categoriesArray = Array.from(cats).filter(cat =>
-            cat !== 'Interactive' && cat !== 'Research' && cat !== 'Certifications'
+            cat !== 'Interactive' && cat !== 'Research'
         );
         return ['All', ...categoriesArray];
     }, []);
+
+    // Determine if we should show category pills
+    const showCategoryPills = useMemo(() => {
+        // Show for YouTube, GitHub, and Certifications (they have subcategories)
+        // Hide for Interactive and Research (no subcategories)
+        return selectedSection === 'All' ||
+            selectedSection === 'YouTube' ||
+            selectedSection === 'GitHub' ||
+            selectedSection === 'Certifications';
+    }, [selectedSection]);
 
     // Filter resources based on section, category, and search
     const filteredResources = useMemo(() => {
@@ -192,20 +202,22 @@ export default function LearningPageClient() {
                         </div>
 
                         {/* Category Pills */}
-                        <div className="flex flex-wrap gap-2 mb-6">
-                            {allCategories.map(category => (
-                                <button
-                                    key={category}
-                                    onClick={() => setSelectedCategory(category)}
-                                    className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${selectedCategory === category
-                                        ? 'gradient-primary text-white shadow-glow'
-                                        : 'glass-panel hover:bg-white/10 hover:border-primary/50'
-                                        }`}
-                                >
-                                    {category}
-                                </button>
-                            ))}
-                        </div>
+                        {showCategoryPills && (
+                            <div className="flex flex-wrap gap-2 mb-6">
+                                {allCategories.map(category => (
+                                    <button
+                                        key={category}
+                                        onClick={() => setSelectedCategory(category)}
+                                        className={`px-4 py-2 rounded-full transition-all text-sm font-medium ${selectedCategory === category
+                                            ? 'gradient-primary text-white shadow-glow'
+                                            : 'glass-panel hover:bg-white/10 hover:border-primary/50'
+                                            }`}
+                                    >
+                                        {category}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
 
                         {/* Results Count */}
                         <div className="mb-4 text-sm text-muted-foreground">
